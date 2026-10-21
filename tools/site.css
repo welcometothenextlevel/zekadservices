@@ -5,6 +5,10 @@
 
 @font-face{font-family:"Archivo";src:url(../fonts/archivo-latin.woff2) format("woff2");font-weight:100 900;font-display:swap}
 @font-face{font-family:"Source Sans 3";src:url(../fonts/source-sans-3-latin.woff2) format("woff2");font-weight:200 900;font-display:swap}
+/* metric-matched fallbacks: the text keeps its size and line breaks when the web fonts arrive (no layout shift) */
+@font-face{font-family:"Archivo Fallback";src:local("Arial Bold"),local("Arial-BoldMT"),local("Arial");font-weight:700;size-adjust:87.96%;ascent-override:99.81%;descent-override:23.87%;line-gap-override:0%}
+@font-face{font-family:"Source Fallback";src:local("Arial"),local("ArialMT");font-weight:400;size-adjust:93.82%;ascent-override:109.15%;descent-override:42.64%;line-gap-override:0%}
+@font-face{font-family:"Source Fallback";src:local("Arial Bold"),local("Arial-BoldMT");font-weight:600 700;size-adjust:91%;ascent-override:112.5%;descent-override:44%;line-gap-override:0%}
 
 :root{
   --navy:#0D2236;--navy-2:#14304C;--navy-3:#0A1A2A;
@@ -14,8 +18,8 @@
   --paper:#F7F4EE;--paper-2:#EEE8DD;--line:#DCD3C4;--line-2:#E8E1D5;
   --ink:#15202B;--muted:#56616C;
   --r:6px;--wrap:1200px;--hd:64px;--gut:16px;
-  --ff-h:"Archivo","Arial Narrow",Arial,sans-serif;
-  --ff-b:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --ff-h:"Archivo","Archivo Fallback",Arial,sans-serif;
+  --ff-b:"Source Sans 3","Source Fallback",Arial,sans-serif;
 }
 @media (min-width:600px){:root{--gut:24px}}
 @media (min-width:960px){:root{--hd:76px;--gut:32px}}
