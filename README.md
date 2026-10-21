@@ -39,16 +39,25 @@ Requests are sent with FormSubmit's AJAX API to the `EMAIL` above. **The first s
 
 Do this again if you change the e-mail. If sending fails, visitors see the phone number and WhatsApp instead.
 
-## Add reviews
+## Reviews and socials
 
-Edit **`js/reviews.js`**. While the list is empty, the "Avis clients" section stays hidden. Add only real reviews, copied from Google:
+The 3 Google reviews (5,0) live in **`js/reviews.js`**. `tools/build.py` writes them into every page, so they show without JavaScript and Google can read them. They appear in three places:
+- a rating badge under the hero buttons
+- the first item of the trust bar
+- an "Avis clients" section right after the "Ce qui est inclus" list
+
+To add or change a review, copy it word for word from Google into the list, update `rating` and `count`, then run `python3 tools/build.py`:
 
 ```js
-window.ZEKA_REVIEWS = [
-  { name: "Marie D.", place: "Thônex", service: "Fin de bail", rating: 5, text: "Texte exact de l'avis." }
-];
-window.ZEKA_GOOGLE_REVIEWS_URL = "https://g.page/r/.../review";
+window.ZEKA_GOOGLE = { "rating": 5.0, "count": 4, "url": "https://search.google.com/local/reviews?placeid=ChIJo5cPZFFvjEcRMiAn7vbA4j0", "maps": "https://maps.google.com/?cid=4459338747840241714" };
+window.ZEKA_REVIEWS = [ { "name": "Prénom N.", "rating": 5, "service": "", "text": "Texte exact de l'avis." } ];
 ```
+
+The file must stay strict JSON between `=` and `;`: double quotes and no trailing commas. An empty list hides every review element.
+
+Link for asking happy customers to leave a review (send it on WhatsApp after a job): https://search.google.com/local/writereview?placeid=ChIJo5cPZFFvjEcRMiAn7vbA4j0
+
+Facebook (`FACEBOOK` in `tools/build.py`) and Google appear as icons in the footer and in `sameAs` in the JSON-LD.
 
 ## Google Ads
 

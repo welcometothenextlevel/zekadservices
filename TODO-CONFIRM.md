@@ -14,7 +14,7 @@ Nothing in this list is on the site yet. The site only states facts that were co
 5. **Real team photo of the three brothers.** A marked placeholder is waiting in the "Trois frères" block.
 6. **Real job photos** (before/after, vans, sites, bathrooms) to replace the stock photos over time.
 7. **Logo.** The old logo is low-resolution clip-art, and the cleaner figure carries a stock watermark. Do you approve the redrawn logo (`img/brand/logo.svg`), or do you have a vector original?
-8. **Google Business Profile link and real reviews.** Paste reviews word for word into `js/reviews.js`, and the section appears.
+8. **More Google reviews.** The 3 current reviews (5,0) are on the site. More reviews add trust, so after each job send the customer this link: https://search.google.com/local/writereview?placeid=ChIJo5cPZFFvjEcRMiAn7vbA4j0. The Facebook page has 0 reviews. A LinkedIn profile "ZEKA D-SERVICES" exists, but it is a personal profile with 7 contacts, so it is not linked. Should it be?
 9. **Client references from the old site:** "Implenia / Losinger Marazzi (déménagement, nettoyage, protection de sol, finitions de chantier)" and "Société d'architectes Ad Hoc SA (carrelage et sanitaires)". Can we name them, and with their logos?
 
 ## Prices and terms

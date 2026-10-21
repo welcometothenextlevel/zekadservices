@@ -17,7 +17,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 BASE_URL = "https://welcometothenextlevel.github.io/zekadservices/"  # change when the site moves to zekadservices.ch
-V = "3"  # cache-busting version for css/js
+V = "4"  # cache-busting version for css/js
 
 IMG = json.loads((ROOT / "tools" / "images.json").read_text())
 MAP_SVG = (ROOT / "tools" / "map.svg").read_text()
@@ -31,6 +31,18 @@ TOWNS = ["Genève", "Chêne-Bourg", "Chêne-Bougeries", "Thônex", "Carouge", "L
          "Meyrin", "Plan-les-Ouates", "Versoix", "Cologny", "Vandœuvres"]
 SERVICES = ["Sanitaire", "Chauffage", "Nettoyage", "Fin de bail", "Déménagement", "Rénovation / peinture", "Autre"]
 ROOMS = ["Studio", "2", "2.5", "3", "3.5", "4", "4.5", "5+"]
+FACEBOOK = "https://www.facebook.com/profile.php?id=61575238847470"
+
+
+def _js_json(src, var):
+    m = re.search(r"window\." + var + r"\s*=\s*(.*?);\s*(?:\n|$)", src, re.S)
+    return json.loads(m.group(1))
+
+
+_REV_SRC = (ROOT / "js" / "reviews.js").read_text()
+GOOGLE = _js_json(_REV_SRC, "ZEKA_GOOGLE")
+REVIEWS = _js_json(_REV_SRC, "ZEKA_REVIEWS")
+RATING_TXT = f"{GOOGLE['rating']:.1f}".replace(".", ",")
 
 
 def esc(s):
@@ -75,6 +87,9 @@ SPRITE = """<svg width="0" height="0" style="position:absolute" aria-hidden="tru
 <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.4" width="14" height="10" rx="2"/><path d="M8 10.4V7.8a4 4 0 0 1 8 0v2.6"/></symbol>
 <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
 <symbol id="i-back" viewBox="0 0 24 24"><path d="M19.2 12H5M10.6 6.2L4.8 12l5.8 5.8"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><path stroke="none" fill="currentColor" d="M12 2.6l2.9 6 6.5.9-4.7 4.6 1.1 6.5L12 17.5l-5.8 3.1 1.1-6.5-4.7-4.6 6.5-.9z"/></symbol>
+<symbol id="i-fb" viewBox="0 0 24 24"><path stroke="none" fill="currentColor" d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></symbol>
+<symbol id="i-g" viewBox="0 0 48 48"><path stroke="none" fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path stroke="none" fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path stroke="none" fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2A11.9 11.9 0 0 1 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path stroke="none" fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3a12 12 0 0 1-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></symbol>
 </defs></svg>"""
 
 
@@ -219,12 +234,28 @@ TRUST3 = [("family", "Entreprise familiale, 3 frères"), ("pin", "Tout le canton
 TRUSTBAR = [("family", "Entreprise familiale"), ("pin", "Tout Genève"), ("doc", "Devis gratuit"), ("chat", "Appel ou WhatsApp")]
 
 
+def stars(n=5):
+    return '<span class="stars" aria-hidden="true">' + "".join(ic("star") for _ in range(int(round(n)))) + "</span>"
+
+
+def rating_badge(loc):
+    """Compact Google rating that jumps to the on-page reviews (keeps ad visitors on the page)."""
+    if not REVIEWS:
+        return ""
+    return (f'<a class="g-badge" href="#avis" data-loc="{loc}" aria-label="Note {RATING_TXT} sur 5 sur Google, {GOOGLE["count"]} avis. Lire les avis">'
+            f'{ic("g", "gl")}{stars(GOOGLE["rating"])}<b>{RATING_TXT}</b><span>sur Google · {GOOGLE["count"]} avis</span></a>')
+
+
 def trust3():
     return '<ul class="trust3">' + "".join(f"<li>{ic(i)}{t}</li>" for i, t in TRUST3) + "</ul>"
 
 
 def trustbar():
-    return '<div class="tbar"><div class="wrap"><ul>' + "".join(f"<li>{ic(i)}{t}</li>" for i, t in TRUSTBAR) + "</ul></div></div>"
+    g = ""
+    if REVIEWS:
+        g = (f'<li class="tb-g"><a href="#avis" data-loc="trustbar">{ic("g", "gl")}<b>{RATING_TXT}</b>{stars(GOOGLE["rating"])}'
+             f'<span>{GOOGLE["count"]} avis Google</span></a></li>')
+    return '<div class="tbar"><div class="wrap"><ul>' + g + "".join(f"<li>{ic(i)}{t}</li>" for i, t in TRUSTBAR) + "</ul></div></div>"
 
 
 PROBLEMS = [("Fuite d’eau", "Sanitaire", True, "drop"), ("WC bouché", "Sanitaire", True, "wrench"),
@@ -273,6 +304,7 @@ def hero(p, rel):
 <h1>{p["h1"]}</h1>
 <p class="hero-sub">{p["sub"]}</p>
 <div class="hero-ctas">{ctas}</div>
+{rating_badge("hero")}
 {trust3()}
 {extra}
 </div>
@@ -352,11 +384,20 @@ def faq_block(faqs, bg="sec sec--white", title="Questions fréquentes"):
 </div></section>"""
 
 
-def reviews_block():
-    return """<section class="sec sec--sand" id="avis" hidden aria-labelledby="avis-t"><div class="wrap">
-<div class="head"><h2 id="avis-t">Avis clients</h2></div>
-<div class="revs"></div>
-<p style="margin-top:20px"><a class="lnk revs-link" href="#" target="_blank" rel="noopener" hidden>Voir tous les avis sur Google</a></p>
+def reviews_block(bg="sec sec--sand", svc="general"):
+    if not REVIEWS:
+        return ""
+    cards = []
+    for r in REVIEWS:
+        tag = f'<span class="rev-svc">{esc(r["service"])}</span>' if r.get("service") else ""
+        cards.append(f'''<figure class="rev"><div class="rev-top">{stars(r["rating"])}{ic("g", "gl")}</div>
+<blockquote><p>«\u00a0{esc(r["text"])}\u00a0»</p></blockquote>
+<figcaption><b>{esc(r["name"])}</b>{tag}</figcaption></figure>''')
+    return f"""<section class="{bg}" id="avis" aria-labelledby="avis-t" data-service="{svc}"><div class="wrap">
+<div class="rv-head"><div><h2 id="avis-t">Ce que disent nos clients</h2><p>Avis publiés sur Google, cités tels quels.</p></div>
+<a class="rv-score" href="{GOOGLE["url"]}" target="_blank" rel="noopener" data-loc="reviews-score">{ic("g", "gl")}<span class="rv-num">{RATING_TXT}</span><span class="rv-meta">{stars(GOOGLE["rating"])}<span>{GOOGLE["count"]} avis sur Google</span></span></a></div>
+<div class="revs">{"".join(cards)}</div>
+<div class="cta-row">{b_quote(svc, "reviews", "Obtenir mon devis")}{b_call(svc, "reviews", "Appeler maintenant")}<a class="btn btn-line" href="{GOOGLE["url"]}" target="_blank" rel="noopener" data-loc="reviews-google">{ic("g", "gl")}Voir les avis sur Google</a></div>
 </div></section>"""
 
 
@@ -421,13 +462,20 @@ def footer(rel):
     return f"""<footer class="ft"><div class="wrap">
 <div class="ft-grid">
 <div class="ft-brand"><img src="{rel}img/brand/logo-white.svg" width="244" height="44" alt="Zeka D-Services" loading="lazy">
-<p>Entreprise familiale multiservice à Chêne-Bourg&nbsp;: sanitaire, chauffage, nettoyage, déménagement, rénovation et peinture dans tout le canton de Genève.</p></div>
+<p>Entreprise familiale multiservice à Chêne-Bourg&nbsp;: sanitaire, chauffage, nettoyage, déménagement, rénovation et peinture dans tout le canton de Genève.</p>
+<ul class="socials" aria-label="Retrouvez-nous">
+<li><a href="{FACEBOOK}" target="_blank" rel="noopener" aria-label="Zeka D-Services sur Facebook" data-loc="footer-social">{ic("fb")}</a></li>
+<li><a href="{GOOGLE["maps"]}" target="_blank" rel="noopener" aria-label="Zeka D-Services sur Google" data-loc="footer-social">{ic("g", "gl")}</a></li>
+<li><a href="{wa("Bonjour, je souhaite un renseignement.")}" target="_blank" rel="noopener" aria-label="Écrire sur WhatsApp" data-loc="footer-social">{ic("wa")}</a></li>
+</ul></div>
 <div><h2>Services</h2><ul>{svcs}</ul></div>
 <div><h2>Contact</h2><ul class="ft-contact">
 <li>{ic("pin")}<address>Zeka D-Services<br>{ADDRESS[0]}<br>{ADDRESS[1]} {ADDRESS[2]}</address></li>
 <li>{ic("phone")}<a href="{TEL}" data-loc="footer"><span data-phone>{PHONE}</span></a></li>
 <li>{ic("wa")}<a href="{wa("Bonjour, je souhaite un renseignement.")}" target="_blank" rel="noopener" data-loc="footer">WhatsApp</a></li>
 <li>{ic("mail")}<a href="#" data-email>E-mail</a></li>
+<li>{ic("fb")}<a href="{FACEBOOK}" target="_blank" rel="noopener" data-loc="footer">Facebook</a></li>
+<li>{ic("g", "ic gl")}<a href="{GOOGLE["url"]}" target="_blank" rel="noopener" data-loc="footer">Avis Google ({RATING_TXT}/5)</a></li>
 </ul></div>
 <div><h2>Informations</h2><ul>
 <li><a href="{rel or './'}">Accueil</a></li>
@@ -493,6 +541,7 @@ def business(kind):
         "address": {"@type": "PostalAddress", "streetAddress": ADDRESS[0], "postalCode": ADDRESS[1],
                     "addressLocality": ADDRESS[2], "addressRegion": "GE", "addressCountry": "CH"},
         "geo": {"@type": "GeoCoordinates", "latitude": GEO[0], "longitude": GEO[1]},
+        "sameAs": [FACEBOOK, GOOGLE["maps"]],
         "areaServed": [{"@type": "AdministrativeArea", "name": "Canton de Genève"}] +
                       [{"@type": "City", "name": t} for t in TOWNS],
     }
@@ -565,7 +614,6 @@ def head(p, rel):
 
 def scripts(rel):
     return (f'<script src="{rel}js/config.js?v={V}" defer></script>'
-            f'<script src="{rel}js/reviews.js?v={V}" defer></script>'
             f'<script src="{rel}js/main.js?v={V}" defer></script>')
 
 
@@ -663,10 +711,10 @@ def home_body(p, rel):
 <div class="acts--minor">{"".join(act(a, True) for a in acts_minor)}</div>
 {cta_row(svc, "activities", p["wa"], "Obtenir mon devis", "Appeler maintenant", "Écrire sur WhatsApp")}
 </div></section>
+{reviews_block(svc=svc)}
 {steps_block(svc, "water", p["wa"])}
 {combo}
 {team_block(rel, svc)}
-{reviews_block()}
 {zone_block(svc)}
 {faq_block(p["faqs"])}"""
 
@@ -723,6 +771,7 @@ def plombier_body(p, rel):
 <div>{checklist(groups, note="Vous ne trouvez pas votre problème&nbsp;? Décrivez-le dans le formulaire ou envoyez une photo sur WhatsApp.")}
 {cta_row(svc, "checklist", p["wa"], order="cqw")}</div>
 </div></section>
+{reviews_block(svc=svc)}
 {band(rel, "stock/robinet-goutte", "Une fuite&nbsp;? En attendant notre arrivée", "Quatre gestes simples limitent les dégâts.", [
         "<b>Coupez l’eau.</b> Fermez la vanne sous l’appareil qui fuit, ou la vanne générale du logement.",
         "<b>Éloignez l’eau de l’électricité.</b> Si l’eau approche d’une prise ou d’un appareil, coupez le courant au tableau.",
@@ -741,7 +790,6 @@ def plombier_body(p, rel):
 </div></section>
 {steps_block(svc, "water", p["wa"])}
 {team_block(rel, svc, short=True)}
-{reviews_block()}
 {faq_block(p["faqs"], "sec")}
 {zone_block(svc, "sec sec--sand", "Plombier dans tout le canton de Genève")}"""
 
@@ -798,6 +846,7 @@ def chauff_body(p, rel):
 <div>{checklist(groups, note="Une chaudière, un code d’erreur&nbsp;? Envoyez-nous une photo sur WhatsApp avec votre demande.")}
 {cta_row(svc, "checklist", p["wa"], order="cqw")}</div>
 </div></section>
+{reviews_block(svc=svc)}
 {band(rel, "stock/vanne-thermostatique", "Plus de chauffage&nbsp;? Avant d’appeler", "Trois vérifications rapides. Si le problème reste, appelez-nous avec ces informations&nbsp;: le diagnostic sera plus rapide.", [
         "<b>Le thermostat.</b> Est-il bien réglé, et ses piles sont-elles bonnes&nbsp;?",
         "<b>Le code d’erreur.</b> La chaudière affiche-t-elle un code&nbsp;? Notez-le ou prenez-le en photo.",
@@ -815,7 +864,6 @@ def chauff_body(p, rel):
 </div></section>
 {steps_block(svc, "water", p["wa"])}
 {team_block(rel, svc, short=True)}
-{reviews_block()}
 {faq_block(p["faqs"], "sec")}
 {zone_block(svc, "sec sec--sand", "Chauffagiste dans tout le canton de Genève")}"""
 
@@ -882,6 +930,7 @@ def nett_body(p, rel):
 <div>{checklist(groups, spark=True, note="Besoin de quelque chose de précis, comme les stores, le four ou les vitres extérieures&nbsp;? Indiquez-le dans votre demande.")}
 {cta_row(svc, "checklist", p["wa"], order="qcw")}</div>
 </div></section>
+{reviews_block(svc=svc)}
 <section class="sec" aria-label="Nos formules de nettoyage"><div class="wrap">
 {split(rel, "stock/nettoyage-sol", "Nettoyage du sol d’un salon lumineux", s1)}
 {split(rel, "stock/nettoyage-bureau", "Aspiration de la moquette d’un bureau", s2, rev=True)}
@@ -890,7 +939,6 @@ def nett_body(p, rel):
 {finbail}
 {steps_block(svc, "spark", p["wa"])}
 {team_block(rel, svc, short=True)}
-{reviews_block()}
 {faq_block(p["faqs"], "sec")}
 {zone_block(svc, "sec sec--sand", "Nettoyage dans tout le canton de Genève")}"""
 
@@ -953,6 +1001,7 @@ def fdb_body(p, rel):
 <div>{checklist(groups, spark=True, note="Votre régie a sa propre liste&nbsp;? Envoyez-la-nous avec votre demande, nous la suivons.")}
 {cta_row(svc, "checklist", p["wa"], order="qwc")}</div>
 </div></section>
+{reviews_block(svc=svc)}
 {prep}
 <section class="sec sec--white" aria-labelledby="gal-t"><div class="wrap">
 {head_block("spark", "Là où l’état des lieux se joue", "Calcaire, intérieur du four, poignées et cadres&nbsp;: les détails que l’on remarque en premier.").replace("<h2>", '<h2 id="gal-t">')}
@@ -966,7 +1015,6 @@ def fdb_body(p, rel):
         ("On vous rappelle et fixe la date", "Nous confirmons le devis, gratuit et sans engagement, et planifions le nettoyage avant la remise des clés."),
         ("On nettoie, vous rendez les clés", "Nous nettoyons tout le logement selon la liste convenue. Vous arrivez à l’état des lieux l’esprit tranquille.")])}
 {team_block(rel, svc, short=True)}
-{reviews_block()}
 {faq_block(p["faqs"], "sec")}
 {zone_block(svc, "sec sec--sand", "Fin de bail dans tout le canton de Genève")}"""
 
@@ -1018,6 +1066,7 @@ def dem_body(p, rel):
 <div>{checklist(groups)}
 {cta_row(svc, "checklist", p["wa"], order="qcw")}</div>
 </div></section>
+{reviews_block(svc=svc)}
 {combo}
 <section class="sec sec--white" aria-labelledby="gal-t"><div class="wrap">
 {head_block("", "Du premier carton au dernier meuble").replace("<h2>", '<h2 id="gal-t">')}
@@ -1030,7 +1079,6 @@ def dem_body(p, rel):
         ("On estime le volume et fixe la date", "Nous évaluons le volume, sur place si nécessaire, et vous remettons un devis gratuit et sans engagement."),
         ("On déménage", "Emballage, démontage, transport et remontage le jour convenu. Si vous le souhaitez, nous nettoyons ensuite l’ancien logement.")])}
 {team_block(rel, svc, short=True)}
-{reviews_block()}
 {faq_block(p["faqs"], "sec")}
 {zone_block(svc, "sec sec--sand", "Déménagements depuis tout le canton de Genève")}"""
 
@@ -1083,6 +1131,7 @@ def ren_body(p, rel):
 <div>{checklist(groups)}
 {cta_row(svc, "checklist", p["wa"], order="qcw")}</div>
 </div></section>
+{reviews_block(svc=svc)}
 <section class="sec" aria-label="Salle de bain et peinture"><div class="wrap">
 {split(rel, "stock/salle-de-bain-renovee", "Salle de bain rénovée avec douche vitrée", s1)}
 {split(rel, "stock/peintre-mur", "Peinture d’un mur au rouleau", s2, rev=True)}
@@ -1098,7 +1147,6 @@ def ren_body(p, rel):
         ("On vient voir et on chiffre", "Nous évaluons le travail sur place et vous remettons un devis gratuit, avec le détail des travaux et des fournitures."),
         ("On réalise les travaux", "Protection, préparation, travaux et finitions, puis nous laissons les pièces propres.")])}
 {team_block(rel, svc, short=True)}
-{reviews_block()}
 {faq_block(p["faqs"], "sec")}
 {zone_block(svc, "sec sec--sand", "Rénovation et peinture dans tout le canton")}"""
 

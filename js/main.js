@@ -343,22 +343,6 @@
     if (wide.addEventListener) wide.addEventListener("change", start);
   }
 
-  /* ---------- 9. reviews (section stays hidden while js/reviews.js is empty) ---------- */
-  var R = window.ZEKA_REVIEWS || [];
-  var revSec = doc.getElementById("avis");
-  if (revSec && R.length) {
-    var star = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.9l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.3l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9z"/></svg>';
-    $(".revs", revSec).innerHTML = R.map(function (r) {
-      var n = Math.max(0, Math.min(5, +r.rating || 5));
-      return '<figure class="rev"><div class="stars" role="img" aria-label="' + n + ' sur 5">' + new Array(n + 1).join(star) +
-        "</div><blockquote><p>" + esc(r.text) + "</p></blockquote><figcaption>" + esc(r.name) +
-        (r.place ? ", " + esc(r.place) : "") + (r.service ? " · " + esc(r.service) : "") + "</figcaption></figure>";
-    }).join("");
-    var gl = $(".revs-link", revSec);
-    if (gl && window.ZEKA_GOOGLE_REVIEWS_URL) { gl.href = window.ZEKA_GOOGLE_REVIEWS_URL; gl.hidden = false; }
-    revSec.hidden = false;
-  }
-
   /* ---------- 10. thank-you page ---------- */
   if (html.getAttribute("data-page") === "merci") {
     var lead = null;
