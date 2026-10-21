@@ -1,0 +1,468 @@
+{
+ "stock/appartement-vide-2": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1333
+  ]
+ },
+ "stock/appartement-vide": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1333
+  ]
+ },
+ "stock/boiler-cle": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1800
+  ]
+ },
+ "stock/calcaire-douche": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1333
+  ]
+ },
+ "stock/calcaire-vapeur": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1333
+  ]
+ },
+ "stock/cartons-salon": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1125
+  ]
+ },
+ "stock/chaudiere-pompe": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1333
+  ]
+ },
+ "stock/chaudiere-technicien-2": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1500
+  ]
+ },
+ "stock/chaudiere-technicien": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1500
+  ]
+ },
+ "stock/collecteur-chauffage": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1335
+  ]
+ },
+ "stock/cuisine-four": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1335
+  ]
+ },
+ "stock/demenagement-camionnette": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1333
+  ]
+ },
+ "stock/demenagement-cartons": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1125
+  ]
+ },
+ "stock/demenagement-diable": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1318
+  ]
+ },
+ "stock/geneve-rade": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1280
+  ]
+ },
+ "stock/geneve-vieille-ville": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   2495
+  ]
+ },
+ "stock/joints-cuisine": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   3000
+  ]
+ },
+ "stock/nettoyage-bureau": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1600
+  ]
+ },
+ "stock/nettoyage-evier": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1333
+  ]
+ },
+ "stock/nettoyage-sol": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1125
+  ]
+ },
+ "stock/nuancier": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   1920,
+   1275
+  ]
+ },
+ "stock/peintre-facade": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   3000
+  ]
+ },
+ "stock/peintre-mur": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1335
+  ]
+ },
+ "stock/peinture-rouleau": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1500
+  ]
+ },
+ "stock/plombier-boiler": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1500
+  ]
+ },
+ "stock/plombier-evier": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1500
+  ]
+ },
+ "stock/plombier-salle-de-bain": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1333
+  ]
+ },
+ "stock/poignee-armoire": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1333
+  ]
+ },
+ "stock/poster-nettoyage": {
+  "w": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": [
+   1280,
+   720
+  ]
+ },
+ "stock/poster-sanitaire": {
+  "w": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": [
+   1280,
+   720
+  ]
+ },
+ "stock/raccord-radiateur": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1333
+  ]
+ },
+ "stock/radiateur": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1331
+  ]
+ },
+ "stock/robinet-goutte": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1454
+  ]
+ },
+ "stock/salle-de-bain-renovee": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1335
+  ]
+ },
+ "stock/thermostat": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1500
+  ]
+ },
+ "stock/vanne-thermostatique": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1333
+  ]
+ },
+ "stock/vitres-perche": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1333
+  ]
+ },
+ "stock/vitres-raclette": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   3000
+  ]
+ },
+ "stock/wc-chasse": {
+  "w": [
+   480,
+   800,
+   1200,
+   1600
+  ],
+  "ratio": [
+   2000,
+   1333
+  ]
+ }
+}
