@@ -17,7 +17,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 BASE_URL = "https://welcometothenextlevel.github.io/zekadservices/"  # change when the site moves to zekadservices.ch
-V = "2"  # cache-busting version for css/js
+V = "3"  # cache-busting version for css/js
 
 IMG = json.loads((ROOT / "tools" / "images.json").read_text())
 MAP_SVG = (ROOT / "tools" / "map.svg").read_text()

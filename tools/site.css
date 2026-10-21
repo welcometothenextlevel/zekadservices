@@ -68,12 +68,12 @@ ul,ol{margin:0;padding:0}
 .hd-nav{display:none}
 .hd-cta{display:flex;align-items:center;gap:8px}
 .hd .btn{min-height:44px;padding:.5em .95em;font-size:1rem}
-.hd-phone{width:46px;height:46px;min-height:46px;padding:0;border-radius:50%}
+.hd .hd-phone{width:46px;height:46px;min-height:46px;padding:0;border-radius:50%}
 .hd-phone .ic{width:22px;height:22px}
 .hd-phone span,.hd-quote .l-long{display:none}
 @media (min-width:380px){.hd-logo img{height:38px}}
 @media (min-width:760px){
-  .hd-phone{width:auto;height:auto;border-radius:var(--r);padding:.5em 1.05em}
+  .hd .hd-phone{width:auto;height:auto;border-radius:var(--r);padding:.5em 1.05em}
   .hd-phone span,.hd-quote .l-long{display:inline}
   .hd-quote .l-short{display:none}
 }
